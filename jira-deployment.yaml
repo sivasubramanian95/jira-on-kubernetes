@@ -1,11 +1,15 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
     app: jira
   name: jira
+  namespace: siva-test
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: jira
   template:
     metadata:
       labels:
@@ -14,16 +18,15 @@ spec:
     spec:
       containers:
         - name: jira
-          image: "gcr.io/hightowerlabs/jira:7.3.6-standalone"
+          image: "vsivasubra95/jira-standalone"
           resources:
             requests:
-              cpu: "2"
-              memory: "2G"
+              cpu: "0.5"
+              memory: "1G"
           volumeMounts:
             - name: "jira-home"
               mountPath: /opt/jira-home
       volumes:
-        - name: "jira-home"
-          gcePersistentDisk:
-            pdName: jira-home
-            fsType: ext4
+        - name: jira-home
+          persistentVolumeClaim:
+            claimName: jira-home

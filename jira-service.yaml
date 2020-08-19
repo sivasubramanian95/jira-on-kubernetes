@@ -4,6 +4,7 @@ metadata:
   labels:
     app: jira
   name: jira
+  namespace: siva-test
 spec:
   ports:
     - port: 8080
