@@ -1,0 +1,19 @@
+node {
+  stage('JIRA') {
+    def project = jiraGetProject idOrKey: 'AH', site: 'JIRA'
+    echo project.data.toString()
+  }
+  stage('JIRA1') {
+    def testIssue1 = [fields: [ project: [id: '10000'],
+                                summary: 'New JIRA Created from Jenkins.',
+                                description: 'New JIRA Created from Jenkins.',
+                                issuetype: [name: 'Task']]]
+
+ 
+
+    def testIssues = [issueUpdates: [testIssue1]]
+    response = jiraNewIssues issues: testIssues, site: 'JIRA'
+    echo response.successful.toString()
+    echo response.data.toString()
+  }
+}
